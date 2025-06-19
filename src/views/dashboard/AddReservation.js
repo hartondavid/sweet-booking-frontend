@@ -95,7 +95,6 @@ const AddReservation = ({ userRights }) => {
                         style={{
                             backgroundColor: ' rgb(235, 71, 17)',
                             color: 'white',
-                            borderRadius: '14px',
                             textTransform: 'none',
                             height: '40px',
 

@@ -2,8 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import GenericTable from "../../components/GenericTable";
 import { showErrorToast, showSuccessToast } from "../../utils/utilFunctions";
-import { apiGetBoughtCakesByAdminId, apiGetBoughtCakesByCustomerId } from "../../api/cakes";
-import { RIGHTS_MAPPING } from "../../utils/utilConstants";
+import { apiGetRemainingCakes } from "../../api/cakes";
 import dayjs from 'dayjs';
 
 const columns = [
@@ -16,11 +15,10 @@ const columns = [
         }
     },
     {
-        field: 'quantity', headerName: 'Cantitate', type: 'string', renderCell: ({ value }) => {
+        field: 'remaining_quantity', headerName: 'Cantitate', type: 'string', renderCell: ({ value }) => {
             return value + ' buc';
         }
     },
-    { field: 'customer_name', headerName: 'Client', type: 'string' },
     {
         field: 'updated_at', headerName: 'Data', type: 'date', renderCell: ({ value }) => {
             return dayjs(value).format('DD.MM.YYYY');
@@ -30,33 +28,21 @@ const columns = [
 ];
 
 
-const BoughtCakes = ({ userRights }) => {
-    const navigate = useNavigate();
+const RemainingCakes = ({ userRights }) => {
     const [data, setData] = useState([]);
-    const rightCode = userRights[0]?.right_code;
     useEffect(() => {
 
+        apiGetRemainingCakes((response) => {
+            setData(response.data);
+        }, showErrorToast);
 
-        if (rightCode === RIGHTS_MAPPING.ADMIN) {
-            apiGetBoughtCakesByAdminId((response) => {
-                setData(response.data);
-                console.log('ingredients', response.data);
-            }, showErrorToast);
-        } else if (rightCode === RIGHTS_MAPPING.CUSTOMER) {
-            apiGetBoughtCakesByCustomerId((response) => {
-                setData(response.data);
-                console.log('ingredients', response.data);
-            }, showErrorToast);
-        }
-
-
-    }, [data.length, rightCode]);
+    }, [data.length]);
 
 
     return (
         <>
             <GenericTable
-                title={"Prajituri cumparate"}
+                title={"Prajituri ramase"}
                 columns={columns}
                 data={data}
             >
@@ -66,4 +52,4 @@ const BoughtCakes = ({ userRights }) => {
         </>
     );
 };
-export default BoughtCakes;
+export default RemainingCakes;

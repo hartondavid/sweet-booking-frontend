@@ -3,21 +3,27 @@ import Dashboard from "./views/dashboard/Index.js";
 import Cakes from "./views/dashboard/Cakes.js";
 import AddEditCake from "./views/dashboard/AddEditCake.js";
 import CakeIngredients from "./views/dashboard/CakeIngredients.js";
-import AddIngredient from "./views/dashboard/AddIngredient.js";
-import EditIngredient from "./views/dashboard/EditIngredient.js";
-import DeleteIngredient from "./views/dashboard/DeleteIngredient.js";
 import StockIngredients from "./views/dashboard/StockIngredients.js";
 import AddEditStockIngredient from "./views/dashboard/AddEditStockIngredient.js";
 import Reservations from "./views/dashboard/Reservations.js";
 import AddReservation from "./views/dashboard/AddReservation.js";
-import UpdateReservationStatus from "./views/dashboard/UpdateReservationStatus.js";
 import BoughtCakes from "./views/dashboard/BoughtCakes.js";
+import RemainingCakes from "./views/dashboard/RemainingCakes.js";
+import Register from "./views/Register.js";
+import Users from "./views/dashboard/Users.js";
+import AddUser from "./views/dashboard/AddUser.js";
 var routes = [
     {
         path: "/login",
         name: "Login",
         icon: "ni ni-key-25 text-info",
         component: <Login />,
+        layout: "/auth",
+    },
+    {
+        path: "/register",
+        name: "Register",
+        component: <Register />,
         layout: "/auth",
     },
 
@@ -52,24 +58,6 @@ var routes = [
     },
 
     {
-        path: "/addIngredient",
-        name: "AddIngredient",
-        component: AddIngredient,
-        layout: "/dashboard",
-    },
-    {
-        path: "/editIngredient",
-        name: "EditIngredient",
-        component: EditIngredient,
-        layout: "/dashboard",
-    },
-    {
-        path: "/deleteIngredient",
-        name: "DeleteIngredient",
-        component: DeleteIngredient,
-        layout: "/dashboard",
-    },
-    {
         path: "/stockIngredients",
         name: "StockIngredients",
         component: StockIngredients,
@@ -93,18 +81,32 @@ var routes = [
         component: AddReservation,
         layout: "/dashboard",
     },
-    {
-        path: "/updateReservationStatus/:reservationId",
-        name: "UpdateReservationStatus",
-        component: UpdateReservationStatus,
-        layout: "/dashboard",
-    },
+
     {
         path: "/boughtCakes",
         name: "BoughtCakes",
         component: BoughtCakes,
         layout: "/dashboard",
     },
+    {
+        path: "/remainingCakes",
+        name: "RemainingCakes",
+        component: RemainingCakes,
+        layout: "/dashboard",
+    },
+    {
+        path: "/users",
+        name: "Users",
+        component: Users,
+        layout: "/dashboard",
+    },
+    {
+        path: "/addUser",
+        name: "AddUser",
+        component: AddUser,
+        layout: "/dashboard",
+    },
+
 ]
 
 export default routes;  

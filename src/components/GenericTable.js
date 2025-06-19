@@ -71,18 +71,18 @@ const GenericTable = ({ statuses = [], title, subtitle, buttonText, buttonAction
     };
     return (
         <>
-            <Box className="flex flex-row justify-between">
+            <Box className="flex flex-row justify-between" sx={{ m: 2 }}>
                 <Typography variant="h4">
                     {title}
                 </Typography>
                 <Typography variant="h6">
                     {subtitle}
                 </Typography>
-                <Box sx={{ ml: 100 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
 
 
                     {buttonText && buttonAction && (
-                        <Button variant="contained" color="success" onClick={buttonAction}>
+                        <Button variant="contained" sx={{ backgroundColor: 'rgb(235, 71, 17)', color: 'white' }} onClick={buttonAction}>
                             {buttonText}
                         </Button>
                     )}

@@ -96,11 +96,11 @@ export const apiLogin = async (successCallback, errorCallback, credentials) => {
 //     }
 // };
 
-export const apiGetCouriers = async (successCallback, errorCallback) => {
+export const apiGetUsers = async (successCallback, errorCallback) => {
     const apiUrl = process.env.REACT_APP_API_URL;
     const token = getToken();
     try {
-        const response = await fetch(`${apiUrl}/api/users/getCouriers`, {
+        const response = await fetch(`${apiUrl}/api/users/getUsers`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -119,39 +119,13 @@ export const apiGetCouriers = async (successCallback, errorCallback) => {
     }
 };
 
-export const apiSearchCourier = async (successCallback, errorCallback, searchField) => {
+
+
+export const apiDeleteUser = async (successCallback, errorCallback, userId) => {
     const apiUrl = process.env.REACT_APP_API_URL;
     const token = getToken();
     try {
-        const response = await fetch(`${apiUrl}/api/users/searchCourier?searchField=${searchField}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        });
-        if (response.status === 204) {
-            successCallback([])
-        } else {
-            const data = await response.json();
-            if (!data.success) {
-                errorCallback(data.message);
-            } else {
-                successCallback(data.data);
-            }
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        errorCallback({ success: false, message: "Failed to fetch users" });
-    }
-};
-
-
-export const apiDeleteCourier = async (successCallback, errorCallback, courierId) => {
-    const apiUrl = process.env.REACT_APP_API_URL;
-    const token = getToken();
-    try {
-        const response = await fetch(`${apiUrl}/api/users/deleteCourier/${courierId}`, {
+        const response = await fetch(`${apiUrl}/api/users/deleteUser/${userId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -166,21 +140,21 @@ export const apiDeleteCourier = async (successCallback, errorCallback, courierId
         }
     } catch (error) {
         console.error('Error:', error);
-        errorCallback({ success: false, message: "Failed to delete courier" });
+        errorCallback({ success: false, message: "Failed to delete user" });
     }
 };
 
-export const apiAddCourierToRoute = async (successCallback, errorCallback, routeId, courierId) => {
+export const apiAddUser = async (successCallback, errorCallback, userData) => {
     const apiUrl = process.env.REACT_APP_API_URL;
     const token = getToken();
     try {
-        const response = await fetch(`${apiUrl}/api/users/addCourierToRoute/${routeId}`, {
+        const response = await fetch(`${apiUrl}/api/users/addUser`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({ courier_id: courierId })
+            body: JSON.stringify(userData)
         });
 
         const data = await response.json();
@@ -191,34 +165,6 @@ export const apiAddCourierToRoute = async (successCallback, errorCallback, route
         }
     } catch (error) {
         console.error('Error:', error);
-        errorCallback({ success: false, message: "Failed to add order to delivery" });
+        errorCallback({ success: false, message: "Failed to add user" });
     }
 };
-
-export const apiGetAllCouriersByAdminId = async (successCallback, errorCallback) => {
-    const apiUrl = process.env.REACT_APP_API_URL;
-    const token = getToken();
-    try {
-        const response = await fetch(`${apiUrl}/api/users/getAllCouriersByAdminId`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        });
-        const data = await response.json();
-        if (!data.success) {
-            errorCallback(data.message);
-        } else {
-            successCallback(data);
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        errorCallback({ success: false, message: "Failed to fetch users for route" });
-    }
-};
-
-
-
-
-

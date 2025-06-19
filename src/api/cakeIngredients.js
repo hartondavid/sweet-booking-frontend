@@ -1,6 +1,6 @@
 import { getToken } from '../utils/utilFunctions';
 
-export const apiAddCakeIngredientToCake = async (successCallback, errorCallback, cakeId, ingredientId, quantity) => {
+export const apiAddCakeIngredientToCake = async (successCallback, errorCallback, cakeId, ingredientId, quantity, unit) => {
     const apiUrl = process.env.REACT_APP_API_URL;
     const token = getToken();
     try {
@@ -10,7 +10,7 @@ export const apiAddCakeIngredientToCake = async (successCallback, errorCallback,
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({ ingredient_id: ingredientId, quantity: quantity })
+            body: JSON.stringify({ ingredient_id: ingredientId, quantity: quantity, unit: unit })
         });
         const data = await response.json();
         if (!data.success) {
@@ -28,13 +28,13 @@ export const apiUpdateCakeIngredient = async (successCallback, errorCallback, ca
     const apiUrl = process.env.REACT_APP_API_URL;
     const token = getToken();
     try {
-        const response = await fetch(`${apiUrl}/api/cakeIngredients/updateCakeIngredient/${ingredientId}`, {
+        const response = await fetch(`${apiUrl}/api/cakeIngredients/updateCakeIngredient/${cakeId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({ cake_id: cakeId, ingredient_id: ingredientId, quantity: quantity })
+            body: JSON.stringify({ ingredient_id: ingredientId, quantity: quantity })
         });
         const data = await response.json();
         if (!data.success) {

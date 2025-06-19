@@ -5,6 +5,8 @@ import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import BeenhereIcon from '@mui/icons-material/Beenhere';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import PersonIcon from '@mui/icons-material/Person';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 export const menus = [
 
@@ -29,51 +31,12 @@ export const menus = [
         name: "Retete",
         to: "/dashboard/cakeIngredients",
         icon: AutoStoriesIcon,
-        isCategory: true,
+        isCategory: false,
         excludelocationsType: [],
         rights: [RIGHTS_MAPPING.ADMIN],
         order: 90,
         children: [
-            {
-                id: 201,
-                parentId: 2,
-                name: "Ingrediente",
-                to: '/dashboard/cakeIngredients',
-                isCategory: false,
-                excludelocationsType: [],
-                rights: [RIGHTS_MAPPING.ADMIN],
-                order: 11,
-            },
-            {
-                id: 202,
-                parentId: 2,
-                name: "Adauga ingredient",
-                to: '/dashboard/addIngredient',
-                isCategory: false,
-                excludelocationsType: [],
-                rights: [RIGHTS_MAPPING.ADMIN],
-                order: 11,
-            },
-            {
-                id: 203,
-                parentId: 2,
-                name: "Editeaza ingredient",
-                to: '/dashboard/editIngredient',
-                isCategory: false,
-                excludelocationsType: [],
-                rights: [RIGHTS_MAPPING.ADMIN],
-                order: 11,
-            },
-            {
-                id: 204,
-                parentId: 2,
-                name: "Sterge ingredient",
-                to: '/dashboard/deleteIngredient',
-                isCategory: false,
-                excludelocationsType: [],
-                rights: [RIGHTS_MAPPING.ADMIN],
-                order: 11,
-            },
+
         ]
     },
     {
@@ -95,7 +58,7 @@ export const menus = [
         parentId: null,
         name: "Prajituri rezervate",
         to: "/dashboard/reservations",
-        icon: BeenhereIcon,
+        icon: AccessTimeIcon,
         isCategory: false,
         excludelocationsType: [],
         rights: [RIGHTS_MAPPING.ADMIN, RIGHTS_MAPPING.CUSTOMER],
@@ -123,7 +86,7 @@ export const menus = [
         parentId: null,
         name: "Prajituri ramase",
         to: "/dashboard/remainingCakes",
-        icon: ShoppingBasketIcon,
+        icon: CakeIcon,
         isCategory: false,
         excludelocationsType: [],
         rights: [RIGHTS_MAPPING.ADMIN],
@@ -132,5 +95,20 @@ export const menus = [
 
         ]
     },
+    {
+        id: 7,
+        parentId: null,
+        name: "Utilizatori",
+        to: "/dashboard/users",
+        icon: PersonIcon,
+        isCategory: false,
+        excludelocationsType: [],
+        rights: [RIGHTS_MAPPING.ADMIN],
+        order: 90,
+        children: [
+
+        ]
+    },
+
 
 ]

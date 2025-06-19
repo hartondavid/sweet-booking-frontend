@@ -120,3 +120,73 @@ export const apiAddStockIngredient = async (successCallback, errorCallback, reqD
     }
 };
 
+export const apiGetIngredientsWhereNotInCake = async (successCallback, errorCallback, cakeId) => {
+    const apiUrl = process.env.REACT_APP_API_URL;
+    const token = getToken();
+    try {
+        const response = await fetch(`${apiUrl}/api/stockIngredients/getIngredientsWhereNotInCake/${cakeId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        const data = await response.json();
+        if (!data.success) {
+            errorCallback(data.message);
+        } else {
+            successCallback(data);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        errorCallback({ success: false, message: "Failed to fetch available ingredient" });
+    }
+};
+
+export const apiGetIngredientsWhereInCake = async (successCallback, errorCallback, cakeId) => {
+    const apiUrl = process.env.REACT_APP_API_URL;
+    const token = getToken();
+    try {
+        const response = await fetch(`${apiUrl}/api/stockIngredients/getIngredientsWhereInCake/${cakeId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        const data = await response.json();
+        if (!data.success) {
+            errorCallback(data.message);
+        } else {
+            successCallback(data);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        errorCallback({ success: false, message: "Failed to fetch available ingredient" });
+    }
+};
+
+
+export const apiIncreaseQuantity = async (successCallback, errorCallback, ingredientId, quantity) => {
+    const apiUrl = process.env.REACT_APP_API_URL;
+    const token = getToken();
+    try {
+        const response = await fetch(`${apiUrl}/api/stockIngredients/increaseQuantity/${ingredientId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ quantity })
+        });
+        const data = await response.json();
+        if (!data.success) {
+            errorCallback(data.message);
+        } else {
+            successCallback(data);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        errorCallback({ success: false, message: "Failed to increase quantity of stock ingredient" });
+    }
+};

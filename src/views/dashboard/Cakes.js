@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { apiGetCakes } from "../../api/cakes";
 import { showErrorToast } from "../../utils/utilFunctions";
 import ProductCards from "../../components/ProductCards";
-import { useParams } from "react-router-dom";
-import { apiGetUserRights } from "../../api/rights";
+import { RIGHTS_MAPPING } from '../../utils/utilConstants';
 
-const Cakes = ({ user, userRights }) => {
-    const navigate = useNavigate();
+const Cakes = ({ userRights }) => {
+
     const [data, setData] = useState([]);
-    const { cardId } = useParams();
-    const loggedUser = user?.user?.data;
-    const [cartId, setCartId] = useState(null);
 
+    const rightCode = userRights[0]?.right_code;
 
     useEffect(() => {
         apiGetCakes(
@@ -26,28 +22,18 @@ const Cakes = ({ user, userRights }) => {
         );
     }, []);
 
-    const [rightCode, setRightCode] = useState('');
-
-    useEffect(() => {
-        apiGetUserRights(
-            (response) => {
-
-                setRightCode(response);
-                console.log('userrightsssssssssssssssssss', response);
-
-            },
-        )
-    }, [loggedUser?.id, user?.id])
 
     return (
         <ProductCards
             data={data}
             products={data}
             title="Prajituri"
-            cartId={cartId}
-            editButton={true}
-            deleteButton={true}
+            editButton={rightCode === RIGHTS_MAPPING.ADMIN}
+            deleteButton={rightCode === RIGHTS_MAPPING.ADMIN}
             setProducts={setData}
+            addButton={rightCode === RIGHTS_MAPPING.ADMIN}
+            reserveButton={rightCode === RIGHTS_MAPPING.CUSTOMER}
+            addQuantityButton={rightCode === RIGHTS_MAPPING.ADMIN}
 
         />
     );

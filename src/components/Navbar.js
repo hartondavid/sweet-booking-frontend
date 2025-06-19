@@ -3,7 +3,8 @@ import { AppBar, Toolbar, IconButton, Menu, MenuItem, Box, useTheme, Typography 
 import { AccountCircle, Menu as MenuIcon } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { removeToken } from '../utils/utilFunctions';
-
+import './logo.css';
+import logo from "../../src/assets/logo.png";
 
 const Navbar = ({ onMenuClick, user, navigationButtons }) => {
     const navigate = useNavigate();
@@ -45,6 +46,8 @@ const Navbar = ({ onMenuClick, user, navigationButtons }) => {
                 >
                     <MenuIcon />
                 </IconButton>
+
+                <img src={logo} alt="logo" style={{ width: '40px', height: '40px', marginLeft: '40px' }} />
 
                 <Box sx={{
                     display: 'flex',

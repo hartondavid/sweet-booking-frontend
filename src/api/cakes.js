@@ -11,8 +11,9 @@ export const apiAddCake = async (successCallback, errorCallback, reqData) => {
         formData.append('name', reqData.name);
         formData.append('price', reqData.price);
         formData.append('description', reqData.description);
-        formData.append('total_quantity', reqData.total_quantity);
         formData.append('kcal', reqData.kcal);
+        formData.append('grams_per_piece', reqData.grams_per_piece);
+
         if (reqData.photo) {
             formData.append('photo', reqData.photo); // Make sure `reqData.image_path` is a File object
         }
@@ -44,8 +45,10 @@ export const apiUpdateCake = async (successCallback, errorCallback, cakeId, reqD
         console.log('reqData', reqData);
         const formData = new FormData();
         formData.append('name', reqData.name);
-        formData.append('total_quantity', reqData.total_quantity);
         formData.append('description', reqData.description);
+        formData.append('kcal', reqData.kcal);
+        formData.append('grams_per_piece', reqData.grams_per_piece);
+        formData.append('price', reqData.price);
 
         if (reqData.photo) {
             formData.append('photo', reqData.photo); // Make sure `reqData.image_path` is a File object
@@ -142,32 +145,6 @@ export const apiGetCakes = async (successCallback, errorCallback) => {
     }
 };
 
-export const apiGetCakesByCustomerId = async (successCallback, errorCallback) => {
-    const apiUrl = process.env.REACT_APP_API_URL;
-    const token = getToken();
-    try {
-        const response = await fetch(`${apiUrl}/api/cakes/getCakesByCustomerId`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        });
-
-
-        const data = await response.json();
-        if (!data.success) {
-            errorCallback(data.message);
-        } else {
-            successCallback(data);
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        errorCallback({ success: false, message: "Failed to fetch orders" });
-    }
-};
-
-
 export const apiGetRemainingCakes = async (successCallback, errorCallback) => {
     const apiUrl = process.env.REACT_APP_API_URL;
     const token = getToken();
@@ -182,7 +159,7 @@ export const apiGetRemainingCakes = async (successCallback, errorCallback) => {
 
         const data = await response.json();
         if (!data.success) {
-            errorCallback(data.message);
+            // errorCallback(data.message);
         } else {
             successCallback(data);
         }
@@ -205,7 +182,7 @@ export const apiGetBoughtCakesByAdminId = async (successCallback, errorCallback)
 
         const data = await response.json();
         if (!data.success) {
-            errorCallback(data.message);
+            // errorCallback(data.message);
         } else {
             successCallback(data);
         }
@@ -228,13 +205,38 @@ export const apiGetBoughtCakesByCustomerId = async (successCallback, errorCallba
 
         const data = await response.json();
         if (!data.success) {
-            errorCallback(data.message);
+            // errorCallback(data.message);
         } else {
             successCallback(data);
         }
     } catch (error) {
         console.error('Error:', error);
         errorCallback({ success: false, message: "Failed to fetch bought cakes" });
+    }
+};
+
+export const apiIncreaseQuantity = async (successCallback, errorCallback, cakeId, quantity) => {
+    const apiUrl = process.env.REACT_APP_API_URL;
+    const token = getToken();
+    try {
+
+        const response = await fetch(`${apiUrl}/api/cakes/increaseQuantity/${cakeId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ quantity })
+        });
+        const data = await response.json();
+        if (!data.success) {
+            errorCallback(data.message);
+        } else {
+            successCallback(data);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        errorCallback({ success: false, message: "Failed to update cake" });
     }
 };
 

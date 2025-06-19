@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { showSuccessToast } from '../utils/utilFunctions';
 import './login.css';
 import bgImage from "../../src/assets/login-bg.jpg";
+import { addStyleToTextField } from "../utils/utilFunctions";
 
 const Login = () => {
     const navigate = useNavigate(); // Initialize navigate function
@@ -130,7 +131,7 @@ const Login = () => {
                         width: '20%', margin: 'auto',
                         marginTop: '100px', backgroundColor: 'white', padding: '20px', borderRadius: '10px'
                     }}>
-                    <Typography variant="h3">Intra in cont</Typography>
+                    <Typography variant="h4">Intra in cont</Typography>
                     <TextField
                         fullWidth
                         margin="normal"
@@ -140,21 +141,26 @@ const Login = () => {
                         onChange={(e) => setEmail(e.target.value)}
                         error={!!errors.email}
                         helperText={errors.email}
+                        sx={addStyleToTextField(email)}
                     />
                     <TextField
                         fullWidth
                         margin="normal"
-                        label={'password'}
+                        label={'Parola'}
                         variant="outlined"
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         error={!!errors.password}
                         helperText={errors.password}
+                        sx={addStyleToTextField(password)}
                     />
 
-                    <Button variant="contained" sx={{ backgroundColor: 'rgb(235, 71, 17)', color: 'white' }} fullWidth onClick={login}>
+                    <Button variant="contained" sx={{ backgroundColor: 'rgb(235, 71, 17)', color: 'white', mb: 1, mt: 1 }} fullWidth onClick={login}>
                         {'login'}
+                    </Button>
+                    <Button variant="outlined" sx={{ color: 'rgb(235, 71, 17)' }} fullWidth onClick={() => navigate('/auth/register')}>
+                        {'Inregistreaza-te'}
                     </Button>
                 </Box>
             </div>

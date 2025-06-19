@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { showErrorToast, showSuccessToast } from "../../utils/utilFunctions";
 import EditIcon from '@mui/icons-material/Edit';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import { addStyleToTextField } from "../../utils/utilFunctions";
 
 const CreateEditCake = ({
 }) => {
@@ -18,14 +19,14 @@ const CreateEditCake = ({
 
     const [confirm, setConfirm] = useState(false);
 
-
     const [formData, setFormData] = useState({
         name: '',
-        price: 0,
+        price: '',
         description: '',
         photo: null,
-        total_quantity: 0,
-        kcal: 0,
+        kcal: '',
+        grams_per_piece: '',
+
     });
 
     useEffect(() => {
@@ -45,8 +46,8 @@ const CreateEditCake = ({
             price: data.price || 0,
             description: data.description || '',
             photo: data.photo ? `${process.env.REACT_APP_API_URL}/${data.photo}` : null,
-            total_quantity: data.total_quantity || 0,
             kcal: data.kcal || 0,
+            grams_per_piece: data.grams_per_piece || 0,
         });
     }
 
@@ -101,8 +102,9 @@ const CreateEditCake = ({
             name: formData.name,
             price: formData.price,
             description: formData.description,
-            total_quantity: formData.total_quantity,
             kcal: formData.kcal,
+            grams_per_piece: formData.grams_per_piece,
+
         }
 
         if (fileForImagePath) {
@@ -130,8 +132,6 @@ const CreateEditCake = ({
                         display: 'inline-block',
                         marginTop: '20px',
                         marginBottom: '20px',
-                        opacity: formData.status === 'inactive' ? 0.6 : 1,
-                        pointerEvents: formData.status === 'inactive' ? 'none' : 'auto'
                     }}>
 
                         {formData.photo && confirm ? (
@@ -147,7 +147,7 @@ const CreateEditCake = ({
                                         boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
                                     }}
                                 />
-                                {formData.status !== 'inactive' && (
+                                {(
                                     <Button
                                         variant="contained"
                                         onClick={() => handleOpenDialog("Schimba poza", "Va rugam selectati o noua poza pentru produs", "photo")}
@@ -177,7 +177,6 @@ const CreateEditCake = ({
                             <Button
                                 variant="outlined"
                                 onClick={() => handleOpenDialog("Adauga poza", "Va rugam adaugati o poza pentru produs", "photo")}
-                                disabled={formData.status === 'inactive'}
                                 sx={{
                                     width: '300px',
                                     height: '200px',
@@ -212,18 +211,18 @@ const CreateEditCake = ({
                             type='string'
                             value={formData.name || ''}
                             fullWidth
-                            margin="normal"
                             onChange={handleChange}
+                            sx={addStyleToTextField(formData.name)}
                         >
                         </TextField>
                         <TextField
                             label='Pret'
                             name="price"
-                            type="number"
+                            type="string"
                             value={formData.price || ''}
                             onChange={handleChange}
                             fullWidth
-                            margin="normal"
+                            sx={addStyleToTextField(formData.price)}
                         />
                         <TextField
                             label='Descriere'
@@ -232,16 +231,7 @@ const CreateEditCake = ({
                             value={formData.description || ''}
                             onChange={handleChange}
                             fullWidth
-                            margin="normal"
-                        />
-                        <TextField
-                            label='Cantitate'
-                            name="total_quantity"
-                            type="number"
-                            value={formData.total_quantity || ''}
-                            onChange={handleChange}
-                            fullWidth
-                            margin="normal"
+                            sx={addStyleToTextField(formData.description)}
                         />
                         <TextField
                             label='Kcal'
@@ -250,8 +240,18 @@ const CreateEditCake = ({
                             value={formData.kcal || ''}
                             onChange={handleChange}
                             fullWidth
-                            margin="normal"
+                            sx={addStyleToTextField(formData.kcal)}
                         />
+                        <TextField
+                            label='Gramaj/buc'
+                            name="grams_per_piece"
+                            type="number"
+                            value={formData.grams_per_piece || ''}
+                            onChange={handleChange}
+                            fullWidth
+                            sx={addStyleToTextField(formData.grams_per_piece)}
+                        />
+
 
                         {/* Dialog for confirmation and file upload */}
                         {dialogOpen && (
@@ -259,7 +259,6 @@ const CreateEditCake = ({
                                 <DialogTitle>{dialogTitle}</DialogTitle>
                                 <DialogContent>
                                     <Box>
-                                        <p>{dialogContent}</p>
                                         <input
                                             type="file"
                                             name="photo"
@@ -270,7 +269,7 @@ const CreateEditCake = ({
                                 </DialogContent>
                                 <DialogActions>
                                     <Button onClick={handleCloseDialog} color="error" variant="contained" >Anuleaza</Button>
-                                    <Button onClick={handleConfirmForImagePath} color="primary" variant="contained" >Confirma</Button>
+                                    <Button onClick={handleConfirmForImagePath} sx={{ backgroundColor: 'rgb(235, 71, 17)', color: 'white' }} variant="contained" >Confirma</Button>
 
                                 </DialogActions>
                             </Dialog>
@@ -278,8 +277,8 @@ const CreateEditCake = ({
 
 
                         <Box sx={{ display: 'flex', justifyContent: 'flex-start', mt: 1 }}>
-                            <Button type="submit" variant="contained" sx={{ mr: 1, mb: 1, backgroundColor: '#1976d2', color: 'white' }}>
-                                {cakeId === "0" ? 'Adauga prajitura' : 'Actualizeaza prajitura'}
+                            <Button type="submit" variant="contained" sx={{ mr: 1, mb: 1, backgroundColor: 'rgb(235, 71, 17)', color: 'white' }}>
+                                {cakeId === "0" ? 'Adauga prajitura' : 'Editeaza prajitura'}
                             </Button>
                             <Button variant="contained" color="error" sx={{ mb: 1 }} onClick={() => navigate(-1)}>
                                 Renunta
