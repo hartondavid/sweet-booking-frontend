@@ -3,7 +3,6 @@ import { RIGHTS_MAPPING } from './utilConstants';
 import CakeIcon from '@mui/icons-material/Cake';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import InventoryIcon from '@mui/icons-material/Inventory';
-import BeenhereIcon from '@mui/icons-material/Beenhere';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import PersonIcon from '@mui/icons-material/Person';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';

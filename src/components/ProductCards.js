@@ -40,7 +40,6 @@ const ProductCards = ({ products, setProducts, editButton = false, deleteButton 
     });
 
 
-
     const handlePageChange = (event, value) => {
         setPage(value);
     };
@@ -48,7 +47,6 @@ const ProductCards = ({ products, setProducts, editButton = false, deleteButton 
     const handleOpenDialog = (productId) => {
         setProductToDelete(productId);
         setOpenDialog(true);
-        console.log('rightCode', rightCode);
 
     };
 
@@ -83,10 +81,6 @@ const ProductCards = ({ products, setProducts, editButton = false, deleteButton 
             },
         )
     }, [userId])
-
-
-    console.log('rightCode', rightCode);
-
 
     // Calculate pagination
     const indexOfLastItem = page * itemsPerPage;
@@ -135,8 +129,6 @@ const ProductCards = ({ products, setProducts, editButton = false, deleteButton 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        console.log('formData', formData);
 
         apiIncreaseQuantity((response) => {
             showSuccessToast(response.message);
@@ -240,7 +232,7 @@ const ProductCards = ({ products, setProducts, editButton = false, deleteButton 
                                 </Typography>
 
                                 <Typography variant="body2" color="black" sx={{ mt: 1 }}>
-                                    {product.remaining_quantity + ' buc.'}
+                                    {product.total_quantity + ' buc.'}
                                 </Typography>
 
 

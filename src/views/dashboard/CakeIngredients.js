@@ -51,7 +51,6 @@ const CakeIngredients = ({ userRights }) => {
     const [formData, setFormData] = useState({
         ingredient_id: '',
         quantity: '',
-        unit: '',
     });
 
     useEffect(() => {
@@ -115,7 +114,6 @@ const CakeIngredients = ({ userRights }) => {
         setFormData({
             ingredient_id: '',
             quantity: '',
-            unit: '',
         });
         setIngredientSearchTerm('');
         setIngredientSearchResults([]);
@@ -131,7 +129,6 @@ const CakeIngredients = ({ userRights }) => {
         setFormData({
             ingredient_id: '',
             quantity: '',
-            unit: '',
         });
         setIngredientSearchTerm('');
         setIngredientSearchResults([]);
@@ -206,7 +203,7 @@ const CakeIngredients = ({ userRights }) => {
 
                 setOpenAddIngredientDialog(false);
             },
-                showErrorToast, cakeId, formData.ingredient_id, formData.quantity, formData.unit)
+                showErrorToast, cakeId, formData.ingredient_id, formData.quantity)
 
 
         } else if (openEditIngredientDialog) {
@@ -250,7 +247,6 @@ const CakeIngredients = ({ userRights }) => {
         setFormData({
             ingredient_id: '',
             quantity: '',
-            unit: '',
         });
 
 
@@ -349,19 +345,6 @@ const CakeIngredients = ({ userRights }) => {
                                 </TextField>
                             </Box>
 
-                            <Box sx={{ position: 'relative', width: '100%' }}>
-
-                                <TextField
-                                    label="Unitate"
-                                    name="unit"
-                                    type='string'
-                                    value={formData.unit || ''}
-                                    fullWidth
-                                    onChange={handleChange}
-                                    sx={addStyleToTextField(formData.unit)}
-                                >
-                                </TextField>
-                            </Box>
                         </Box>
 
                     </DialogContent>

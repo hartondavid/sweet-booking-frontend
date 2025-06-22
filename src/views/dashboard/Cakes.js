@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { apiGetCakes } from "../../api/cakes";
+import { apiGetCakesByCustomerId, apiGetCakes } from "../../api/cakes";
 import { showErrorToast } from "../../utils/utilFunctions";
 import ProductCards from "../../components/ProductCards";
 import { RIGHTS_MAPPING } from '../../utils/utilConstants';
@@ -11,16 +11,26 @@ const Cakes = ({ userRights }) => {
     const rightCode = userRights[0]?.right_code;
 
     useEffect(() => {
-        apiGetCakes(
-            (response) => {
-                if (response.data) {
-                    console.log('cakes', response.data);
-                    setData(response.data);
-                }
-            },
-            showErrorToast
-        );
-    }, []);
+        if (rightCode === RIGHTS_MAPPING.CUSTOMER) {
+            apiGetCakesByCustomerId(
+                (response) => {
+                    if (response.data) {
+                        setData(response.data);
+                    }
+                },
+                showErrorToast
+            );
+        } else if (rightCode === RIGHTS_MAPPING.ADMIN) {
+            apiGetCakes(
+                (response) => {
+                    if (response.data) {
+                        setData(response.data);
+                    }
+                },
+                showErrorToast
+            );
+        }
+    }, [data.length, rightCode]);
 
 
     return (

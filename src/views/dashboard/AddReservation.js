@@ -43,11 +43,8 @@ const AddReservation = ({ userRights }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log('formData', formData);
-
         apiAddReservation((response) => { navigate(`/dashboard/reservations`); showSuccessToast(response.message) },
             showErrorToast, cakeId, formData.quantity)
-
 
     };
 

@@ -1,6 +1,6 @@
 import { getToken } from '../utils/utilFunctions';
 
-export const apiAddCakeIngredientToCake = async (successCallback, errorCallback, cakeId, ingredientId, quantity, unit) => {
+export const apiAddCakeIngredientToCake = async (successCallback, errorCallback, cakeId, ingredientId, quantity) => {
     const apiUrl = process.env.REACT_APP_API_URL;
     const token = getToken();
     try {
@@ -10,7 +10,7 @@ export const apiAddCakeIngredientToCake = async (successCallback, errorCallback,
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({ ingredient_id: ingredientId, quantity: quantity, unit: unit })
+            body: JSON.stringify({ ingredient_id: ingredientId, quantity: quantity })
         });
         const data = await response.json();
         if (!data.success) {

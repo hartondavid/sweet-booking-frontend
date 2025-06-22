@@ -3,8 +3,6 @@ import {
     Typography,
     TextField,
     Button,
-    FormControlLabel,
-    Checkbox,
     Box,
 } from '@mui/material';
 import { useState } from 'react';
@@ -56,8 +54,6 @@ const Login = () => {
             return
         }
 
-        console.log('login');
-
         const apiUrl = process.env.REACT_APP_API_URL;
         try {
             const response = await fetch(`${apiUrl}/api/users/login`, {
@@ -78,7 +74,7 @@ const Login = () => {
                 if (token) {
                     storeToken(token)
                 }
-                showSuccessToast('login-success')
+                showSuccessToast(data.message)
                 navigate('/dashboard');
 
             } else {

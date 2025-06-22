@@ -2,21 +2,17 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import GenericTable from "../../components/GenericTable";
 import { showErrorToast, showSuccessToast } from "../../utils/utilFunctions";
-import { Chip, Dialog, DialogTitle, DialogContent, DialogActions, Box, TextField, Button, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { Chip, Dialog, DialogTitle, DialogContent, DialogActions, Box, Button, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { apiGetReservationsByAdminId, apiGetReservationsByCustomerId, apiUpdateReservationStatus } from "../../api/reservations";
 import { RIGHTS_MAPPING } from "../../utils/utilConstants";
 import dayjs from 'dayjs';
 import { addStyleToTextField } from "../../utils/utilFunctions";
-import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 
 const colorMap = {
     placed: 'orange',
     cancelled: 'red',
     picked_up: 'green'
 };
-
-
-
 
 const Reservations = ({ userRights }) => {
     const navigate = useNavigate();
@@ -62,6 +58,11 @@ const Reservations = ({ userRights }) => {
             showSuccessToast(response.message);
             setOpenDialog(false);
             apiGetReservationsByAdminId((response) => {
+                setData(response.data);
+                console.log('ingredients', response.data);
+            }, showErrorToast);
+
+            apiGetReservationsByCustomerId((response) => {
                 setData(response.data);
                 console.log('ingredients', response.data);
             }, showErrorToast);
@@ -111,9 +112,9 @@ const Reservations = ({ userRights }) => {
 
                         }}
                         onClick={() => {
-                            if (rightCode === RIGHTS_MAPPING.ADMIN) {
-                                handleOpenDialog(row.id);
-                            }
+
+                            handleOpenDialog(row.id);
+
                         }}
 
                     />
@@ -161,9 +162,9 @@ const Reservations = ({ userRights }) => {
                                     onChange={handleChange}
 
                                 >
-                                    <MenuItem value={'placed'}>Plasata</MenuItem>
-                                    <MenuItem value={'picked_up'}>Ridicata</MenuItem>
-                                    <MenuItem value={'cancelled'}>Anulata</MenuItem>
+                                    {rightCode === RIGHTS_MAPPING.ADMIN && <MenuItem value={'placed'}>Plasata</MenuItem>}
+                                    {rightCode === RIGHTS_MAPPING.ADMIN && <MenuItem value={'picked_up'}>Ridicata</MenuItem>}
+                                    {(rightCode === RIGHTS_MAPPING.ADMIN || rightCode === RIGHTS_MAPPING.CUSTOMER) && <MenuItem value={'cancelled'}>Anulata</MenuItem>}
 
 
                                 </Select>

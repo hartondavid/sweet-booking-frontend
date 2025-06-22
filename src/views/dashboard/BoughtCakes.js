@@ -21,6 +21,7 @@ const columns = [
         }
     },
     { field: 'customer_name', headerName: 'Client', type: 'string' },
+    { field: 'customer_phone', headerName: 'Telefon', type: 'string' },
     {
         field: 'updated_at', headerName: 'Data', type: 'date', renderCell: ({ value }) => {
             return dayjs(value).format('DD.MM.YYYY');
@@ -40,12 +41,10 @@ const BoughtCakes = ({ userRights }) => {
         if (rightCode === RIGHTS_MAPPING.ADMIN) {
             apiGetBoughtCakesByAdminId((response) => {
                 setData(response.data);
-                console.log('ingredients', response.data);
             }, showErrorToast);
         } else if (rightCode === RIGHTS_MAPPING.CUSTOMER) {
             apiGetBoughtCakesByCustomerId((response) => {
                 setData(response.data);
-                console.log('ingredients', response.data);
             }, showErrorToast);
         }
 

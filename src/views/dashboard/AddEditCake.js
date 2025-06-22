@@ -35,8 +35,6 @@ const CreateEditCake = ({
                 parseCakeResponse(response.data);
                 setConfirm(true);
             }, showErrorToast, cakeId)
-
-            console.log('parseProductResponse', formData);
         }
     }, [cakeId])
 
@@ -119,7 +117,7 @@ const CreateEditCake = ({
     };
     return (
         <>
-            <Box sx={{ marginLeft: '10px', marginRight: '10px' }}  >
+            <Box sx={{ marginLeft: '20px', marginRight: '20px', marginTop: '20px' }}  >
                 <Typography variant="h4">
                     <span className="font-bold text-black">{cakeId === "0" ? "Adauga produs" : "Editeaza produs"}</span>
                 </Typography>
@@ -276,7 +274,7 @@ const CreateEditCake = ({
                         )}
 
 
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-start', mt: 1 }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-start', mt: 1, mb: 1 }}>
                             <Button type="submit" variant="contained" sx={{ mr: 1, mb: 1, backgroundColor: 'rgb(235, 71, 17)', color: 'white' }}>
                                 {cakeId === "0" ? 'Adauga prajitura' : 'Editeaza prajitura'}
                             </Button>

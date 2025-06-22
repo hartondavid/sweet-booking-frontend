@@ -240,6 +240,27 @@ export const apiIncreaseQuantity = async (successCallback, errorCallback, cakeId
     }
 };
 
+export const apiGetCakesByCustomerId = async (successCallback, errorCallback) => {
+    const apiUrl = process.env.REACT_APP_API_URL;
+    const token = getToken();
+    try {
+        const response = await fetch(`${apiUrl}/api/cakes/getCakesByCustomerId`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
 
 
-
+        const data = await response.json();
+        if (!data.success) {
+            // errorCallback(data.message);
+        } else {
+            successCallback(data);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        errorCallback({ success: false, message: "Failed to fetch orders" });
+    }
+};

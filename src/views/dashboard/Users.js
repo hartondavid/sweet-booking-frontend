@@ -128,7 +128,6 @@ const Users = ({ userRights }) => {
                 }}
 
                 actions={actions}
-
             >
 
             </GenericTable>

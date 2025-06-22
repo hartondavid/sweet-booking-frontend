@@ -95,5 +95,3 @@ export const apiGetReservationsByCustomerId = async (successCallback, errorCallb
         errorCallback({ success: false, message: "Failed to fetch reservations" });
     }
 };
-
-

@@ -15,7 +15,7 @@ const columns = [
         }
     },
     {
-        field: 'remaining_quantity', headerName: 'Cantitate', type: 'string', renderCell: ({ value }) => {
+        field: 'total_quantity', headerName: 'Cantitate', type: 'string', renderCell: ({ value }) => {
             return value + ' buc';
         }
     },

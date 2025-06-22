@@ -15,7 +15,6 @@ const GenericTable = ({ statuses = [], title, subtitle, buttonText, buttonAction
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5); // Default to 5 rows per page
     const [expandedRows, setExpandedRows] = useState({});
-    //const [children, setChildren] = useState(false);
 
     // Handle page change
     const handleChangePage = (event, newPage) => {

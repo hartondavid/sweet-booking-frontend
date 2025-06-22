@@ -42,7 +42,6 @@ const StockIngredients = ({ userRights }) => {
 
             apiGetStockIngredients((response) => {
                 setData(response.data);
-                console.log('ingredients', response.data);
             }, showErrorToast);
 
             setActions([
@@ -107,14 +106,11 @@ const StockIngredients = ({ userRights }) => {
 
     const handleIncreaseQuantity = () => {
 
-        console.log('ingredientId', ingredientId);
-        console.log('formData.quantity', formData.quantity);
         apiIncreaseQuantity((response) => {
             showSuccessToast(response.message);
             setOpenIncreaseQuantityDialog(false);
             apiGetStockIngredients((response) => {
                 setData(response.data);
-                console.log('ingredients', response.data);
             }, showErrorToast);
         }, showErrorToast, ingredientId, formData.quantity);
 

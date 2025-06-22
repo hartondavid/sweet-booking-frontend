@@ -11,8 +11,6 @@ const Sidebar = ({ open, onClose, userRights, }) => {
   const [openedCatgory, setOpenedCatgory] = React.useState(null);
   const url = location.pathname;
 
-  console.log('userRights', userRights);
-
   const handleCategoryClick = (menuId) => {
     if (menuId === openedCatgory) {
       setOpenedCatgory(null)
@@ -44,7 +42,6 @@ const Sidebar = ({ open, onClose, userRights, }) => {
       <Box sx={{ p: 2 }}>
         <List>
           {url.includes("dashboard") && menus.map(menu => {
-            //  console.log('userRights', userRights);
             if (shouldShowMenu(userRights, menu))
               if (menu.isCategory) {
                 return <Box key={`menu_${menu.id}`} ><ListItemButton sx={{ padding: "2px 4px 2px 4px" }} onClick={() => { handleCategoryClick(menu.id) }}>
