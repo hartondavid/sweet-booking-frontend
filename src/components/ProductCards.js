@@ -132,9 +132,10 @@ const ProductCards = ({ products, setProducts, editButton = false, deleteButton 
 
         apiIncreaseQuantity((response) => {
             showSuccessToast(response.message);
-            apiGetCakes((response) => {
-                setProducts(response.data);
-            }, showErrorToast);
+            // apiGetCakes((response) => {
+            //     setProducts(response.data);
+            // }, showErrorToast);
+            setProducts(products => products.filter(product => product.id !== cakeId));
         }, showErrorToast, cakeId, formData.quantity);
 
         setOpenAddQuantityDialog(false);
@@ -160,6 +161,10 @@ const ProductCards = ({ products, setProducts, editButton = false, deleteButton 
         apiAddReservation((response) => {
             showSuccessToast(response.message);
             setOpenReserveDialog(false);
+            // apiGetCakes((response) => {
+            //     setProducts(response.data);
+            // }, showErrorToast);
+            setProducts(products => products.filter(product => product.id !== cakeId));
         }, showErrorToast, cakeId, formData.quantity);
     }
 
@@ -229,6 +234,9 @@ const ProductCards = ({ products, setProducts, editButton = false, deleteButton 
                                 </Typography>
                                 <Typography variant="body2" color="black">
                                     {product.price_per_kg + ' lei/kg'}
+                                </Typography>
+                                <Typography variant="body2" color="black">
+                                    {product.kcal + ' kcal'}
                                 </Typography>
 
                                 <Typography variant="body2" color="black" sx={{ mt: 1 }}>

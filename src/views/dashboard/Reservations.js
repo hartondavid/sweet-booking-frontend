@@ -57,16 +57,23 @@ const Reservations = ({ userRights }) => {
         apiUpdateReservationStatus((response) => {
             showSuccessToast(response.message);
             setOpenDialog(false);
-            apiGetReservationsByAdminId((response) => {
-                setData(response.data);
-                console.log('ingredients', response.data);
-            }, showErrorToast);
 
-            apiGetReservationsByCustomerId((response) => {
-                setData(response.data);
-                console.log('ingredients', response.data);
-            }, showErrorToast);
+            if (rightCode === RIGHTS_MAPPING.ADMIN) {
+                apiGetReservationsByAdminId((response) => {
+                    setData(response.data);
+                    console.log('ingredients', response.data);
+                }, showErrorToast);
+            }
+
+            if (rightCode === RIGHTS_MAPPING.CUSTOMER) {
+                apiGetReservationsByCustomerId((response) => {
+                    setData(response.data);
+                    console.log('ingredients', response.data);
+                }, showErrorToast);
+            }
         }, showErrorToast, reservationId, formData.status);
+
+        console.log('formData', formData);
 
     }
 
@@ -112,6 +119,7 @@ const Reservations = ({ userRights }) => {
 
                         }}
                         onClick={() => {
+                            console.log('row', row);
 
                             handleOpenDialog(row.id);
 

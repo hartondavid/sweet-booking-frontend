@@ -117,7 +117,6 @@ const CakeIngredients = ({ userRights }) => {
         });
         setIngredientSearchTerm('');
         setIngredientSearchResults([]);
-
     }
 
     const openEditDialog = (id) => {
@@ -182,8 +181,6 @@ const CakeIngredients = ({ userRights }) => {
     };
 
     const handleAddIngredient = (ingredient) => {
-
-
 
         setIngredientSearchTerm(ingredient.name);
         setIngredientSearchResults([]);
