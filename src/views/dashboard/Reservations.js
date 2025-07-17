@@ -81,7 +81,7 @@ const Reservations = ({ userRights }) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     }
 
-    const columns = [
+    const baseColumns = [
         { field: 'id', headerName: 'Id', type: 'string' },
         { field: 'name', headerName: 'Nume', type: 'string' },
         { field: 'photo', headerName: 'Foto', type: 'filepath' },
@@ -129,14 +129,20 @@ const Reservations = ({ userRights }) => {
                 );
             }
         },
-        { field: 'customer_name', headerName: 'Client', type: 'string' },
         {
             field: 'updated_at', headerName: 'Data', type: 'date', renderCell: ({ value }) => {
                 return dayjs(value).format('DD.MM.YYYY');
             }
         },
-
     ];
+
+    const adminColumns = [
+        { field: 'customer_name', headerName: 'Client', type: 'string' }
+    ];
+
+    const columns = rightCode === RIGHTS_MAPPING.ADMIN
+        ? [...baseColumns.slice(0, 6), ...adminColumns]
+        : baseColumns;
 
 
     return (
