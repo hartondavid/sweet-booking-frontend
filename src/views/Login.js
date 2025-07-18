@@ -86,38 +86,23 @@ const Login = () => {
 
             console.log('Response data:', data);
             console.log('Response headers:', response.headers);
-            console.log('All response headers:');
-            try {
-                response.headers.forEach((value, key) => {
-                    console.log(`${key}: ${value}`);
-                });
-            } catch (error) {
-                console.log('Cannot iterate headers due to CORS restrictions');
-                console.log('Available headers:', response.headers);
-            }
 
             if (data.message === 'Successfully logged in!') {
-                // Try different ways to get the token
-                const tokenFromHeader = response.headers.get('X-Auth-Token');
-                const tokenFromHeaderAlt = response.headers.get('x-auth-token'); // lowercase
-                const tokenFromBody = data.token;
+                const token = response.headers.get('X-Auth-Token');
+                console.log('Token from header:', token);
 
-                console.log('Token from header (X-Auth-Token):', tokenFromHeader);
-                console.log('Token from header (x-auth-token):', tokenFromHeaderAlt);
-                console.log('Token from body:', tokenFromBody);
-
-                let finalToken = tokenFromBody || tokenFromHeader || tokenFromHeaderAlt;
-
-                if (finalToken) {
-                    console.log('Final token to store:', finalToken);
-                    storeToken(finalToken);
-                    showSuccessToast(data.message);
-                    navigate('/dashboard');
+                // Also check if token is in response body
+                if (data.token) {
+                    console.log('Token from body:', data.token);
+                    storeToken(data.token);
+                } else if (token) {
+                    storeToken(token);
                 } else {
                     console.error('No token found in response');
-                    console.log('Available data:', data);
-                    showInvalidCredentials();
                 }
+
+                showSuccessToast(data.message);
+                navigate('/dashboard');
             } else {
                 console.log('Login failed:', data);
                 showInvalidCredentials();
