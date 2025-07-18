@@ -55,12 +55,6 @@ const Login = () => {
         }
 
         const apiUrl = process.env.REACT_APP_API_URL;
-        console.log('API URL:', apiUrl); // Debug log
-        if (!apiUrl) {
-            console.error('API URL is not configured');
-            toast.error('Configuration error: API URL not set');
-            return;
-        }
         try {
             const response = await fetch(`${apiUrl}/api/users/login`, {
                 method: 'POST', // Change to 'POST' for sending data
@@ -73,39 +67,18 @@ const Login = () => {
                 }), // Convert your data to a JSON string
             });
 
-            let data;
-            try {
-                data = await response.json();
-            } catch (jsonError) {
-                console.error('Failed to parse JSON response:', jsonError);
-                console.log('Response status:', response.status);
-                console.log('Response text:', await response.text());
-                toast.error('Server response error');
-                return;
-            }
-
-            console.log('Response data:', data);
-            console.log('Response headers:', response.headers);
+            const data = await response.json();
 
             if (data.message === 'Successfully logged in!') {
                 const token = response.headers.get('X-Auth-Token');
-                console.log('Token from header:', token);
-
-                // Also check if token is in response body
-                if (data.token) {
-                    console.log('Token from body:', data.token);
-                    storeToken(data.token);
-                } else if (token) {
-                    storeToken(token);
-                } else {
-                    console.error('No token found in response');
+                if (token) {
+                    storeToken(token)
                 }
-
-                showSuccessToast(data.message);
+                showSuccessToast(data.message)
                 navigate('/dashboard');
+
             } else {
-                console.log('Login failed:', data);
-                showInvalidCredentials();
+                showInvalidCredentials()
             }
         } catch (error) {
             console.error('Error:', error);
