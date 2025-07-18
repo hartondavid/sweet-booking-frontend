@@ -55,6 +55,12 @@ const Login = () => {
         }
 
         const apiUrl = process.env.REACT_APP_API_URL;
+        console.log('API URL:', apiUrl); // Debug log
+        if (!apiUrl) {
+            console.error('API URL is not configured');
+            toast.error('Configuration error: API URL not set');
+            return;
+        }
         try {
             const response = await fetch(`${apiUrl}/api/users/login`, {
                 method: 'POST', // Change to 'POST' for sending data
@@ -67,7 +73,16 @@ const Login = () => {
                 }), // Convert your data to a JSON string
             });
 
-            const data = await response.json();
+            let data;
+            try {
+                data = await response.json();
+            } catch (jsonError) {
+                console.error('Failed to parse JSON response:', jsonError);
+                console.log('Response status:', response.status);
+                console.log('Response text:', await response.text());
+                toast.error('Server response error');
+                return;
+            }
 
             if (data.message === 'Successfully logged in!') {
                 const token = response.headers.get('X-Auth-Token');
