@@ -4,7 +4,9 @@ import { menus } from "./menus";
 export const NEEDS_UPDATE_STRING = 'needs_update';
 
 export const storeToken = (token) => {
+    console.log('Storing token:', token);
     localStorage.setItem('token', token);
+    console.log('Token stored, checking...', localStorage.getItem('token'));
 }
 
 export const removeToken = () => {
@@ -12,7 +14,9 @@ export const removeToken = () => {
 }
 
 export const getToken = () => {
-    return localStorage.getItem('token');
+    const token = localStorage.getItem('token');
+    console.log('Getting token from localStorage:', token);
+    return token;
 }
 
 export const showErrorToast = (message) => {
