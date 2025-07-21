@@ -28,6 +28,7 @@ export const apiAddCake = async (successCallback, errorCallback, reqData) => {
         // If there's a photo, we need to use FormData
         if (reqData.photo) {
             console.log('Photo detected, using FormData approach');
+            console.log('Photo file:', reqData.photo);
             const formData = new FormData();
             formData.append('name', reqData.name);
             formData.append('price', reqData.price);
@@ -36,6 +37,8 @@ export const apiAddCake = async (successCallback, errorCallback, reqData) => {
             formData.append('grams_per_piece', reqData.grams_per_piece);
             formData.append('photo', reqData.photo);
 
+            console.log('FormData created with photo');
+
             const response = await fetch(`${apiUrl}/api/cakes/addCake`, {
                 method: 'POST',
                 headers: {
@@ -43,6 +46,7 @@ export const apiAddCake = async (successCallback, errorCallback, reqData) => {
                 },
                 body: formData
             });
+            console.log('FormData request sent, response status:', response.status);
             const data = await response.json();
             console.log('Server response (FormData):----------', data);
             if (!data.success) {
