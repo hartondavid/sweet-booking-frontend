@@ -24,6 +24,35 @@ export const apiAddCake = async (successCallback, errorCallback, reqData) => {
         };
 
         console.log('JSON payload:----------', jsonPayload);
+
+        // If there's a photo, we need to use FormData
+        if (reqData.photo) {
+            console.log('Photo detected, using FormData approach');
+            const formData = new FormData();
+            formData.append('name', reqData.name);
+            formData.append('price', reqData.price);
+            formData.append('description', reqData.description);
+            formData.append('kcal', reqData.kcal);
+            formData.append('grams_per_piece', reqData.grams_per_piece);
+            formData.append('photo', reqData.photo);
+
+            const response = await fetch(`${apiUrl}/api/cakes/addCake`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                body: formData
+            });
+            const data = await response.json();
+            console.log('Server response (FormData):----------', data);
+            if (!data.success) {
+                console.log('Error details (FormData):----------', data);
+                errorCallback(data.message);
+            } else {
+                successCallback(data);
+            }
+            return;
+        }
         const response = await fetch(`${apiUrl}/api/cakes/addCake`, {
             method: 'POST',
             headers: {
@@ -36,7 +65,13 @@ export const apiAddCake = async (successCallback, errorCallback, reqData) => {
         console.log('Server response:----------', data);
         if (!data.success) {
             console.log('Error details:----------', data);
-            errorCallback(data.message);
+            // Check if the cake was actually added despite the error message
+            if (data.data && data.data.id) {
+                console.log('Cake was actually added with ID:', data.data.id);
+                successCallback(data);
+            } else {
+                errorCallback(data.message);
+            }
         } else {
             successCallback(data);
         }

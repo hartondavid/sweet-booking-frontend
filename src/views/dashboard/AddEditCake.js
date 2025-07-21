@@ -110,7 +110,11 @@ const CreateEditCake = ({
         }
 
         if (cakeId === '0') {
-            apiAddCake((response) => { navigate(-1); showSuccessToast(response.message) }, showErrorToast, payload)
+            apiAddCake((response) => {
+                console.log('Cake added successfully:', response);
+                navigate(-1);
+                showSuccessToast('Prăjitura a fost adăugată cu succes!')
+            }, showErrorToast, payload)
         } else {
             apiUpdateCake((response) => { navigate(-1) }, showErrorToast, cakeId, payload)
         }
