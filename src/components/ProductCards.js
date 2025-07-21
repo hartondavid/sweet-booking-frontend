@@ -207,7 +207,7 @@ const ProductCards = ({ products, setProducts, editButton = false, deleteButton 
                             <CardMedia
                                 component="img"
                                 height="200"
-                                image={`${process.env.REACT_APP_API_URL}/${product.photo}`}
+                                image={product.photo ? (product.photo.startsWith('http') ? product.photo : `${process.env.REACT_APP_API_URL}/${product.photo}`) : ''}
                                 alt={product.name}
 
                             />

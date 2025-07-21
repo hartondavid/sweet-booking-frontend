@@ -150,18 +150,19 @@ const GenericTable = ({ statuses = [], title, subtitle, buttonText, buttonAction
                                             </TableCell>
                                         );
                                     } else if (column.type === 'filepath') {
+                                        const imageUrl = row[column.field] ? (row[column.field].startsWith('http') ? row[column.field] : `${process.env.REACT_APP_API_URL}/${row[column.field]}`) : '';
                                         return (
                                             <TableCell key={`generic-table-filepath-${column.field}`}>
                                                 {isImageFile(row[column.field]) ? (
                                                     <img
-                                                        src={`${process.env.REACT_APP_API_URL}/${row[column.field]}`}
+                                                        src={imageUrl}
                                                         alt="file"
                                                         style={{ maxHeight: '100px', maxWidth: '100px', cursor: 'pointer' }}
-                                                        onClick={() => handleDownload(`${process.env.REACT_APP_API_URL}/${row[column.field]}`)} // Click to download
+                                                        onClick={() => handleDownload(imageUrl)} // Click to download
                                                     />
                                                 ) : (
                                                     <IconButton
-                                                        onClick={() => handleDownload(`${process.env.REACT_APP_API_URL}/${row[column.field]}`)}
+                                                        onClick={() => handleDownload(imageUrl)}
                                                     >
                                                         <InsertDriveFile /> {/* File icon */}
                                                     </IconButton>

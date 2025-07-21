@@ -43,7 +43,7 @@ const CreateEditCake = ({
             name: data.name || '',
             price: data.price || 0,
             description: data.description || '',
-            photo: data.photo ? `${process.env.REACT_APP_API_URL}/${data.photo}` : null,
+            photo: data.photo ? (data.photo.startsWith('http') ? data.photo : `${process.env.REACT_APP_API_URL}/${data.photo}`) : null,
             kcal: data.kcal || 0,
             grams_per_piece: data.grams_per_piece || 0,
         });
