@@ -4,9 +4,9 @@ import { menus } from "./menus";
 export const NEEDS_UPDATE_STRING = 'needs_update';
 
 export const storeToken = (token) => {
-    console.log('Storing token:', token);
+
     localStorage.setItem('token', token);
-    console.log('Token stored, checking...', localStorage.getItem('token'));
+
 }
 
 export const removeToken = () => {
@@ -45,7 +45,6 @@ export const showSuccessToast = (message) => {
 export const shouldShowMenu = (userRights, menu) => {
     let shouldShow = true;
 
-    //    console.log('userRights', userRights);
     if (userRights.length > 0) {
         const right_code = userRights[0].right_code
 
