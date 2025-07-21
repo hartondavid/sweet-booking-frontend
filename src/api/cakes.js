@@ -13,24 +13,24 @@ export const apiAddCake = async (successCallback, errorCallback, reqData) => {
             kcal: typeof reqData.kcal,
             grams_per_piece: typeof reqData.grams_per_piece
         });
-        const formData = new FormData();
 
-        formData.append('name', reqData.name);
-        formData.append('price', reqData.price);
-        formData.append('description', reqData.description);
-        formData.append('kcal', reqData.kcal);
-        formData.append('grams_per_piece', reqData.grams_per_piece);
+        // Try JSON approach first
+        const jsonPayload = {
+            name: reqData.name,
+            price: reqData.price,
+            description: reqData.description,
+            kcal: reqData.kcal,
+            grams_per_piece: reqData.grams_per_piece
+        };
 
-        if (reqData.photo) {
-            formData.append('photo', reqData.photo); // Make sure `reqData.image_path` is a File object
-        }
+        console.log('JSON payload:----------', jsonPayload);
         const response = await fetch(`${apiUrl}/api/cakes/addCake`, {
             method: 'POST',
             headers: {
-                // 'Content-Type': 'application/json',
+                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: formData
+            body: JSON.stringify(jsonPayload)
         });
         const data = await response.json();
         console.log('Server response:----------', data);
