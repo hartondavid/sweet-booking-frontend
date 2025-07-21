@@ -2,6 +2,14 @@ import { getToken } from '../utils/utilFunctions';
 
 export const apiAddCake = async (successCallback, errorCallback, reqData) => {
     const apiUrl = process.env.REACT_APP_API_URL;
+
+    // Check if API URL is configured
+    if (!apiUrl) {
+        console.error('API URL not configured. Please check your environment variables.');
+        errorCallback && errorCallback('API URL not configured');
+        return;
+    }
+
     const token = getToken();
     try {
 
@@ -13,17 +21,6 @@ export const apiAddCake = async (successCallback, errorCallback, reqData) => {
             kcal: typeof reqData.kcal,
             grams_per_piece: typeof reqData.grams_per_piece
         });
-
-        // Try JSON approach first
-        const jsonPayload = {
-            name: reqData.name,
-            price: reqData.price,
-            description: reqData.description,
-            kcal: reqData.kcal,
-            grams_per_piece: reqData.grams_per_piece
-        };
-
-        console.log('JSON payload:----------', jsonPayload);
 
         // Always use FormData approach
         console.log('Using FormData approach for all cases');
@@ -48,23 +45,30 @@ export const apiAddCake = async (successCallback, errorCallback, reqData) => {
             },
             body: formData
         });
+
         console.log('FormData request sent, response status:', response.status);
+
+        // Check if response is ok before parsing JSON
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         const data = await response.json();
         console.log('Server response:----------', data);
         if (!data.success) {
             console.log('Error details:----------', data);
-            errorCallback(data.message);
+            errorCallback && errorCallback(data.message || 'Failed to add cake');
         } else {
             console.log('Success response data:----------', data.data);
             if (data.data && data.data.photo) {
                 console.log('Photo URL from server:----------', data.data.photo);
             }
-            successCallback(data);
+            successCallback && successCallback(data);
         }
     } catch (error) {
         console.error('Error in apiAddCake:', error);
         console.error('Error stack:', error.stack);
-        errorCallback("Failed to add cake");
+        errorCallback && errorCallback("Failed to add cake");
     }
 };
 

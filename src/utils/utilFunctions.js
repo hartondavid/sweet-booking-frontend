@@ -117,3 +117,48 @@ export const addStyleToTextField = (hasValue) => {
     }
 }
 
+// API utility functions for better error handling
+export const validateApiUrl = () => {
+    const apiUrl = process.env.REACT_APP_API_URL;
+    if (!apiUrl) {
+        console.error('API URL not configured. Please check your environment variables.');
+        showErrorToast('API URL not configured. Please contact support.');
+        return false;
+    }
+    return true;
+}
+
+export const handleApiResponse = async (response, errorCallback) => {
+    try {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('API Response Error:', error);
+        if (error.name === 'SyntaxError') {
+            errorCallback && errorCallback('Invalid response format from server');
+        } else {
+            errorCallback && errorCallback(`Request failed: ${error.message}`);
+        }
+        return null;
+    }
+}
+
+export const createApiHeaders = (includeAuth = true) => {
+    const headers = {
+        'Content-Type': 'application/json',
+    };
+
+    if (includeAuth) {
+        const token = getToken();
+        if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
+        }
+    }
+
+    return headers;
+}
+
