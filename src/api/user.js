@@ -2,6 +2,14 @@ import { getToken } from "../utils/utilFunctions";
 
 export const apiRegister = async (successCallback, errorCallback, userData) => {
     const apiUrl = process.env.REACT_APP_API_URL;
+
+    // Check if API URL is configured
+    if (!apiUrl) {
+        console.error('API URL not configured. Please check your environment variables.');
+        errorCallback && errorCallback('API URL not configured');
+        return;
+    }
+
     try {
         const response = await fetch(`${apiUrl}/api/users/register`, {
             method: 'POST',
@@ -11,20 +19,33 @@ export const apiRegister = async (successCallback, errorCallback, userData) => {
             body: JSON.stringify(userData),
         });
 
+        // Check if response is ok before parsing JSON
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         const data = await response.json();
         if (!data.success) {
-            errorCallback(data.message);
+            errorCallback && errorCallback(data.message || 'Registration failed');
         } else {
-            successCallback(data);
+            successCallback && successCallback(data);
         }
     } catch (error) {
-        console.error('Error:', error);
-        errorCallback({ success: false, message: "Registration failed" });
+        console.error('Error in apiRegister:', error);
+        errorCallback && errorCallback("Registration failed");
     }
 };
 
 export const apiLogin = async (successCallback, errorCallback, credentials) => {
     const apiUrl = process.env.REACT_APP_API_URL;
+
+    // Check if API URL is configured
+    if (!apiUrl) {
+        console.error('API URL not configured. Please check your environment variables.');
+        errorCallback && errorCallback('API URL not configured');
+        return;
+    }
+
     try {
         const response = await fetch(`${apiUrl}/api/users/login`, {
             method: 'POST',
@@ -34,17 +55,22 @@ export const apiLogin = async (successCallback, errorCallback, credentials) => {
             body: JSON.stringify(credentials),
         });
 
+        // Check if response is ok before parsing JSON
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         const data = await response.json();
         if (!data.success) {
-            errorCallback(data.message);
+            errorCallback && errorCallback(data.message || 'Login failed');
         } else {
             // Get the token from the custom header
             const token = response.headers.get('X-Auth-Token');
-            successCallback({ ...data, token });
+            successCallback && successCallback({ ...data, token });
         }
     } catch (error) {
-        console.error('Error:', error);
-        errorCallback({ success: false, message: "Login failed" });
+        console.error('Error in apiLogin:', error);
+        errorCallback && errorCallback("Login failed");
     }
 };
 
@@ -98,6 +124,14 @@ export const apiLogin = async (successCallback, errorCallback, credentials) => {
 
 export const apiGetUsers = async (successCallback, errorCallback) => {
     const apiUrl = process.env.REACT_APP_API_URL;
+
+    // Check if API URL is configured
+    if (!apiUrl) {
+        console.error('API URL not configured. Please check your environment variables.');
+        errorCallback && errorCallback('API URL not configured');
+        return;
+    }
+
     const token = getToken();
     try {
         const response = await fetch(`${apiUrl}/api/users/getUsers`, {
@@ -107,15 +141,21 @@ export const apiGetUsers = async (successCallback, errorCallback) => {
                 'Authorization': `Bearer ${token}`
             }
         });
+
+        // Check if response is ok before parsing JSON
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         const data = await response.json();
         if (!data.success) {
-            errorCallback(data.message);
+            errorCallback && errorCallback(data.message || 'Failed to fetch users');
         } else {
-            successCallback(data);
+            successCallback && successCallback(data);
         }
     } catch (error) {
-        console.error('Error:', error);
-        errorCallback({ success: false, message: "Failed to fetch users" });
+        console.error('Error in apiGetUsers:', error);
+        errorCallback && errorCallback("Failed to fetch users");
     }
 };
 
