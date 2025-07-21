@@ -25,63 +25,42 @@ export const apiAddCake = async (successCallback, errorCallback, reqData) => {
 
         console.log('JSON payload:----------', jsonPayload);
 
-        // If there's a photo, we need to use FormData
+        // Always use FormData approach
+        console.log('Using FormData approach for all cases');
+        const formData = new FormData();
+        formData.append('name', reqData.name);
+        formData.append('price', reqData.price);
+        formData.append('description', reqData.description);
+        formData.append('kcal', reqData.kcal);
+        formData.append('grams_per_piece', reqData.grams_per_piece);
+
         if (reqData.photo) {
-            console.log('Photo detected, using FormData approach');
-            console.log('Photo file:', reqData.photo);
-            const formData = new FormData();
-            formData.append('name', reqData.name);
-            formData.append('price', reqData.price);
-            formData.append('description', reqData.description);
-            formData.append('kcal', reqData.kcal);
-            formData.append('grams_per_piece', reqData.grams_per_piece);
+            console.log('Adding photo to FormData');
             formData.append('photo', reqData.photo);
-
-            console.log('FormData created with photo');
-
-            const response = await fetch(`${apiUrl}/api/cakes/addCake`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                },
-                body: formData
-            });
-            console.log('FormData request sent, response status:', response.status);
-            const data = await response.json();
-            console.log('Server response (FormData):----------', data);
-            if (!data.success) {
-                console.log('Error details (FormData):----------', data);
-                errorCallback(data.message);
-            } else {
-                successCallback(data);
-            }
-            return;
         }
+
+        console.log('FormData created');
+
         const response = await fetch(`${apiUrl}/api/cakes/addCake`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify(jsonPayload)
+            body: formData
         });
+        console.log('FormData request sent, response status:', response.status);
         const data = await response.json();
         console.log('Server response:----------', data);
         if (!data.success) {
             console.log('Error details:----------', data);
-            // Check if the cake was actually added despite the error message
-            if (data.data && data.data.id) {
-                console.log('Cake was actually added with ID:', data.data.id);
-                successCallback(data);
-            } else {
-                errorCallback(data.message);
-            }
+            errorCallback(data.message);
         } else {
             successCallback(data);
         }
     } catch (error) {
-        console.error('Error:', error);
-        errorCallback({ success: false, message: "Failed to add cake" });
+        console.error('Error in apiAddCake:', error);
+        console.error('Error stack:', error.stack);
+        errorCallback("Failed to add cake");
     }
 };
 
