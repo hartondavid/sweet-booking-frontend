@@ -207,9 +207,12 @@ const ProductCards = ({ products, setProducts, editButton = false, deleteButton 
                             <CardMedia
                                 component="img"
                                 height="200"
-                                image={product.photo ? (product.photo.startsWith('http') ? product.photo : `${process.env.REACT_APP_API_URL}/${product.photo}`) : ''}
+                                image={product.photo || ''}
                                 alt={product.name}
-
+                                onError={(e) => {
+                                    console.log('Image failed to load:', e.target.src);
+                                    console.log('Original photo URL:', product.photo);
+                                }}
                             />
                             <CardContent sx={{ flexGrow: 1 }}>
                                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%' }}>

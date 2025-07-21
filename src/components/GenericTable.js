@@ -150,19 +150,22 @@ const GenericTable = ({ statuses = [], title, subtitle, buttonText, buttonAction
                                             </TableCell>
                                         );
                                     } else if (column.type === 'filepath') {
-                                        const imageUrl = row[column.field] ? (row[column.field].startsWith('http') ? row[column.field] : `${process.env.REACT_APP_API_URL}/${row[column.field]}`) : '';
                                         return (
                                             <TableCell key={`generic-table-filepath-${column.field}`}>
                                                 {isImageFile(row[column.field]) ? (
                                                     <img
-                                                        src={imageUrl}
+                                                        src={row[column.field] || ''}
                                                         alt="file"
                                                         style={{ maxHeight: '100px', maxWidth: '100px', cursor: 'pointer' }}
-                                                        onClick={() => handleDownload(imageUrl)} // Click to download
+                                                        onClick={() => handleDownload(row[column.field] || '')} // Click to download
+                                                        onError={(e) => {
+                                                            console.log('Image failed to load:', e.target.src);
+                                                            console.log('Original field value:', row[column.field]);
+                                                        }}
                                                     />
                                                 ) : (
                                                     <IconButton
-                                                        onClick={() => handleDownload(imageUrl)}
+                                                        onClick={() => handleDownload(row[column.field] || '')}
                                                     >
                                                         <InsertDriveFile /> {/* File icon */}
                                                     </IconButton>

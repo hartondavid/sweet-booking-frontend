@@ -55,6 +55,10 @@ export const apiAddCake = async (successCallback, errorCallback, reqData) => {
             console.log('Error details:----------', data);
             errorCallback(data.message);
         } else {
+            console.log('Success response data:----------', data.data);
+            if (data.data && data.data.photo) {
+                console.log('Photo URL from server:----------', data.data.photo);
+            }
             successCallback(data);
         }
     } catch (error) {
@@ -164,6 +168,14 @@ export const apiGetCakes = async (successCallback, errorCallback) => {
         if (!data.success) {
             // errorCallback(data.message);
         } else {
+            console.log('Cakes loaded:----------', data.data);
+            if (data.data && data.data.length > 0) {
+                data.data.forEach((cake, index) => {
+                    if (cake.photo) {
+                        console.log(`Cake ${index} photo URL:----------`, cake.photo);
+                    }
+                });
+            }
             successCallback(data);
         }
     } catch (error) {
