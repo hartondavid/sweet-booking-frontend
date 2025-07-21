@@ -6,6 +6,13 @@ export const apiAddCake = async (successCallback, errorCallback, reqData) => {
     try {
 
         console.log('Req data:----------', reqData);
+        console.log('Req data types:----------', {
+            name: typeof reqData.name,
+            price: typeof reqData.price,
+            description: typeof reqData.description,
+            kcal: typeof reqData.kcal,
+            grams_per_piece: typeof reqData.grams_per_piece
+        });
         const formData = new FormData();
 
         formData.append('name', reqData.name);
@@ -26,7 +33,9 @@ export const apiAddCake = async (successCallback, errorCallback, reqData) => {
             body: formData
         });
         const data = await response.json();
+        console.log('Server response:----------', data);
         if (!data.success) {
+            console.log('Error details:----------', data);
             errorCallback(data.message);
         } else {
             successCallback(data);
