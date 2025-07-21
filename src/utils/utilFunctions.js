@@ -15,7 +15,7 @@ export const removeToken = () => {
 
 export const getToken = () => {
     const token = localStorage.getItem('token');
-    console.log('Getting token from localStorage:', token);
+
     return token;
 }
 
